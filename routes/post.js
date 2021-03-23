@@ -7,9 +7,9 @@ const Post = require('../models/Post');
 router.get('/', async (req, res) => {
     try {
         const posts = await Post.find();
-        res.json(posts);
+        res.status(200).json(posts);
     } catch (err) {
-        res.json({ messege: err });
+        res.status(400).json({ messege: err });
     }
 });
 
@@ -17,9 +17,9 @@ router.get('/', async (req, res) => {
 router.get('/:postID', async (req, res) => {
     try {
         const onePost = await Post.findById(req.params.postID);
-        res.json(onePost);
+        res.status(200).json(onePost);
     } catch (err) {
-        res.json({ messege: err });
+        res.status(400).json({ messege: err });
     }
 });
 
@@ -28,9 +28,9 @@ router.get('/:postID', async (req, res) => {
 router.delete('/:postID', async (req, res) => {
     try {
         const removedPost = await Post.remove({ _id: req.params.postID });
-        res.json(removedPost);
+        res.status(202).json(removedPost);
     } catch (err) {
-        res.json({ messege: err });
+        res.status(400).json({ messege: err });
     }
 });
 
@@ -38,9 +38,9 @@ router.delete('/:postID', async (req, res) => {
 router.patch('/:postID', async (req, res) => {
     try {
         const updatedPost = await Post.updateOne({ _id: req.params.postID }, { $set: { title: req.body.title } });
-        res.json(updatedPost);
+        res.status(201).json(updatedPost);
     } catch (err) {
-        res.json({ messege: err });
+        res.status(400).json({ messege: err });
     }
 });
 
@@ -54,10 +54,10 @@ router.post('/', (req, res) => {
 
     post.save()
         .then(data => {
-            res.json(data);
+            res.status(201).json(data);
         })
         .catch(err => {
-            res.send(err);
+            res.status(400).send(err);
         })
 });
 
